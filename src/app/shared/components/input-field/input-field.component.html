@@ -1,7 +1,8 @@
 
-<div>
-    <label *ngIf="labelText">{{ labelText }}</label>
+<div class="flex flex-col text-left">
+    <label class="pb-2 indent-2" *ngIf="labelText">{{ labelText }}</label>
     <input
+        class="p-2 border border-black rounded-2xl"
         [type]="type"
         [name]="name"
         [placeholder]="placeholder"

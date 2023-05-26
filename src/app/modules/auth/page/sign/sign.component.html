@@ -1,31 +1,28 @@
 <div class="flex flex-col items-center p-2 text-center">
-    <img src="../../../../../assets/icons/anopinion_logo.svg" alt="An Opinion Logo" style="width: 200px;">
+    <img class="mb-10" src="../../../../../assets/icons/anopinion_logo.svg" alt="An Opinion Logo" style="width: 200px;">
     <div class="w-full">
-        <h1 class="text-2xl my-5">{{ isRegister === true ? 'Register' : 'Login'}}</h1>
+        <h1 class="text-2xl my-5">{{ isRegister ? 'Register' : 'Login'}}</h1>
         <form class="flex flex-col gap-y-5">
             <app-input-field
                 type="text"
                 name="test"
-                placeholder="test placeholder"
-                class="border border-black"
+                placeholder="Email"
             ></app-input-field>
-            <input
-                class="p-2 border border-black rounded-2xl"
-                type="email"
-                placeholder="Email">
-            <input
-                class="p-2 border border-black rounded-2xl"
-                type="password"
-                placeholder="Password">
-            <input
+            <app-input-field
+                type="text"
+                name="test"
+                placeholder="Password"
+            ></app-input-field>
+            <app-input-field
                 *ngIf="isRegister"
-                class="p-2 border border-black rounded-2xl"
-                type="password"
-                placeholder="Confirm password">
+                type="text"
+                name="test"
+                placeholder="Confirm Password"
+            ></app-input-field>
             <button
                 class="py-2 px-4 border border-black rounded-2xl w-max mx-auto"
                 type="button"
-            >Register</button>
+            >{{ isRegister ? 'Register' : 'Login' }}</button>
         </form>
     </div>
     <span *ngIf="isRegister" class="w-3/4 my-5">Already have an account? Click <a [routerLink]="['/auth/login']" class="underline">here</a> to sign in</span>
