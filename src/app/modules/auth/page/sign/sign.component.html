@@ -3,6 +3,12 @@
     <div class="w-full">
         <h1 class="text-2xl my-5">{{ isRegister === true ? 'Register' : 'Login'}}</h1>
         <form class="flex flex-col gap-y-5">
+            <app-input-field
+                type="text"
+                name="test"
+                placeholder="test placeholder"
+                class="border border-black"
+            ></app-input-field>
             <input
                 class="p-2 border border-black rounded-2xl"
                 type="email"
