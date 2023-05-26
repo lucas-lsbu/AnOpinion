@@ -1,2 +1,28 @@
-<p class="bg-blue-500">sign works!</p>
-<img src="../../../../../assets/icons/anopinion_logo.svg" alt="An Opinion Logo" style="height:500px;">
+<div class="flex flex-col items-center p-2 text-center">
+    <img src="../../../../../assets/icons/anopinion_logo.svg" alt="An Opinion Logo" style="width: 200px;">
+    <div class="w-full">
+        <h1 class="text-2xl my-5">{{ isRegister === true ? 'Register' : 'Login'}}</h1>
+        <form class="flex flex-col gap-y-5">
+            <input
+                class="p-2 border border-black rounded-2xl"
+                type="email"
+                placeholder="Email">
+            <input
+                class="p-2 border border-black rounded-2xl"
+                type="password"
+                placeholder="Password">
+            <input
+                *ngIf="isRegister"
+                class="p-2 border border-black rounded-2xl"
+                type="password"
+                placeholder="Confirm password">
+            <button
+                class="py-2 px-4 border border-black rounded-2xl w-max mx-auto"
+                type="button"
+            >Register</button>
+        </form>
+    </div>
+    <span *ngIf="isRegister" class="w-3/4 my-5">Already have an account? Click <a [routerLink]="['/auth/login']" class="underline">here</a> to sign in</span>
+    <span *ngIf="!isRegister" class="w-3/4 my-5">Don't have an account? Click <a [routerLink]="['/auth/register']" class="underline">here</a> to register</span>
+    <span *ngIf="!isRegister" >Forgot your password? Click <a class="underline" [routerLink]="['/auth/forgot-ppassword']">here</a></span>
+</div>
