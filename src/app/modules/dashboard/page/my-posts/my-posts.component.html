@@ -1,1 +1,36 @@
-<p>my-posts works!</p>
+<div class="flex flex-col items-center">
+    <h1 class="text-2xl mt-6 mb-4">My Posts</h1>
+    <div class="grid grid-cols-1 gap-2">
+        <app-post-card
+            category="RELATIONSHIP"
+            title="My boyfriend and I are having issues"
+            notifications="2"
+            totalComments="5"
+        ></app-post-card>
+        <app-post-card
+            category="NUTRITION"
+            title="How would I manage to hit my calorie surplus?"
+            notifications="1"
+            totalComments="10"
+        ></app-post-card>
+        <app-post-card
+            category="FAMILY"
+            title="My sister and her boyfriend are ruining my life!"
+            notifications="2"
+            totalComments="5"
+        ></app-post-card>
+        <app-post-card
+            category="PROBLEM"
+            title="My council has just sent me a letter!"
+            notifications="2"
+            totalComments="5"
+        ></app-post-card>
+        <app-post-card
+            category="CARS"
+            title="My engine has been having issues lately and I don't know how to fix it, I've gone to every car mechanic near me"
+            notifications="2"
+            totalComments="5"
+        ></app-post-card>
+    </div>
+    <button class="bg-gray-200 py-2 px-4 rounded-xl mt-4" type="button">More Posts</button>
+</div>
