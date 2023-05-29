@@ -4,6 +4,7 @@ import { HomeComponent } from './page/home/home.component';
 import { MyPostsComponent } from './page/my-posts/my-posts.component';
 import { ViewPostComponent } from './page/view-post/view-post.component';
 import { SettingsComponent } from './page/settings/settings.component';
+import { FavouritesComponent } from './page/favourites/favourites.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path: 'settings',
     component: SettingsComponent
+  },
+  {
+    path: 'favourites',
+    component: FavouritesComponent
   }
 ];
 

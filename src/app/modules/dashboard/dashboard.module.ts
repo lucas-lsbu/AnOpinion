@@ -5,12 +5,18 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { HomeComponent } from './page/home/home.component';
 import { MyPostsComponent } from './page/my-posts/my-posts.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { SettingsComponent } from './page/settings/settings.component';
+import { FavouritesComponent } from './page/favourites/favourites.component';
+import { ViewPostComponent } from './page/view-post/view-post.component';
 
 
 @NgModule({
   declarations: [
     HomeComponent,
-    MyPostsComponent
+    MyPostsComponent,
+    SettingsComponent,
+    FavouritesComponent,
+    ViewPostComponent
   ],
   imports: [
     CommonModule,
