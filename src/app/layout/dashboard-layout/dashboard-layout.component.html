@@ -1,1 +1,35 @@
+<nav class="flex">
+    <div class="z-20 absolute top-0 right-0 p-2" (click)="navDisplay = !navDisplay">
+        <img *ngIf="!navDisplay" class="w-7 h-7 hamburger-icon" src="../../../assets/icons/hamburger.svg">
+        <img *ngIf="navDisplay" class="w-7 h-7 x-icon" src="../../../assets/icons/hamburger-close.svg">
+    </div>
+    
+    <ul *ngIf="navDisplay" class="absolute left-0 top-0 h-screen w-screen bg-white z-10 pt-10">
+        <li class="text-center mb-4">
+            <a class="text-2xl h-full bg-green-500 text-white py-3 px-6 mx-auto rounded-xl">
+                Create Post
+            </a>
+        </li>
+        <li>
+            <a class="text-2xl text-center block py-4 w-4/5 border-b border-black mx-auto">
+                Home
+            </a>
+        </li>
+        <li>
+            <a class="text-2xl text-center block py-4 w-4/5 border-b border-black mx-auto">
+                Search
+            </a>
+        </li>
+        <li>
+            <a class="text-2xl text-center block py-4 w-4/5 border-b border-black mx-auto">
+                My posts
+            </a>
+        </li>
+        <li>
+            <a class="text-2xl text-center block py-4 w-4/5 border-b border-black mx-auto">
+                Favourites
+            </a>
+        </li>
+    </ul>
+</nav>
 <router-outlet></router-outlet>
