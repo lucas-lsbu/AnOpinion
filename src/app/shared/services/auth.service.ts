@@ -1,15 +1,25 @@
-import { Injectable, inject } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Injectable, OnDestroy, inject } from '@angular/core';
+import { Auth, User, authState, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { Subscription } from 'rxjs';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AuthService implements OnDestroy {
   private auth: Auth = inject(Auth);
-  
-  constructor() {}
+  authState$ = authState(this.auth);
+  authStateSubscription!: Subscription;
+
+  constructor() {
+    this.authStateSubscription = this.authState$.subscribe((aUser: User | null) => {
+      console.log(aUser);
+    })
+  }
+
+  ngOnDestroy() {
+    this.authStateSubscription.unsubscribe();
+  }
 
   // Sign up
   async signUp(email: string, password: string) {
@@ -22,6 +32,22 @@ export class AuthService {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        throw new Error('Error code: ' + errorCode + ', Error message: ' + errorMessage);
+      })
+  }
+
+  // Sign in
+  async signIn(email: string, password: string) {
+    return signInWithEmailAndPassword(this.auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        throw new Error('Error code: ' + errorCode + ', Error message: ' + errorMessage);
+        // console.log(errorCode, errorMessage);
       })
   }
 
