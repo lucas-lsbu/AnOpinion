@@ -8,6 +8,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { SettingsComponent } from './page/settings/settings.component';
 import { FavouritesComponent } from './page/favourites/favourites.component';
 import { ViewPostComponent } from './page/view-post/view-post.component';
+import { CreatePostComponent } from './page/create-post/create-post.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { ViewPostComponent } from './page/view-post/view-post.component';
     MyPostsComponent,
     SettingsComponent,
     FavouritesComponent,
-    ViewPostComponent
+    ViewPostComponent,
+    CreatePostComponent
   ],
   imports: [
     CommonModule,
