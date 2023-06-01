@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy, inject } from '@angular/core';
-import { Auth, User, authState, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { Auth, User, authState, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 import { Subscription } from 'rxjs';
 
 
@@ -13,7 +13,8 @@ export class AuthService implements OnDestroy {
 
   constructor() {
     this.authStateSubscription = this.authState$.subscribe((aUser: User | null) => {
-      console.log(aUser);
+      // this just logs the user thats signed in or null if no one is signed in
+      // console.log(aUser);
     })
   }
 
@@ -49,6 +50,13 @@ export class AuthService implements OnDestroy {
         throw new Error('Error code: ' + errorCode + ', Error message: ' + errorMessage);
         // console.log(errorCode, errorMessage);
       })
+  }
+
+  // Sign out
+  async signOut() {
+    this.auth.signOut();
+    window.location.reload();
+    return;
   }
 
 }

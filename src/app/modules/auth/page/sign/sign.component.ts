@@ -38,11 +38,17 @@ export class SignComponent {
     // now check if register or login and perform appropriate action
     if (this.isRegister) {
       this.auth.signUp(this.signForm.controls.email.value!, this.signForm.controls.password.value!)
+        .then(() => {
+          window.location.reload();
+        })
         .catch((error) => {
           this.error = error;
         })
     } else if (!this.isRegister) {
       this.auth.signIn(this.signForm.controls.email.value!, this.signForm.controls.password.value!)
+        .then(() => {
+          window.location.reload();
+        })
         .catch((error) => {
           this.error = error;
         })
