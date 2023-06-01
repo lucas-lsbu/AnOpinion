@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "anopinion-537eb": {
+      "hosting": {
+        "AnOpinion": [
+          "anopinion-537eb"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "anopinion-537eb"
+  }
+}
