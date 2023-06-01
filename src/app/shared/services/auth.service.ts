@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy, inject } from '@angular/core';
 import { Auth, User, authState, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
-import { Subscription } from 'rxjs';
-
+import { Firestore, addDoc, collection, doc, setDoc } from '@angular/fire/firestore';
+import { Observable, Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,15 +11,15 @@ export class AuthService implements OnDestroy {
   authState$ = authState(this.auth);
   authStateSubscription!: Subscription;
 
+  // firestore
+  private firestore: Firestore = inject(Firestore);
+
   constructor() {
+
     this.authStateSubscription = this.authState$.subscribe((aUser: User | null) => {
       // this just logs the user thats signed in or null if no one is signed in
       // console.log(aUser);
     })
-  }
-
-  ngOnDestroy() {
-    this.authStateSubscription.unsubscribe();
   }
 
   // Sign up
@@ -27,8 +27,13 @@ export class AuthService implements OnDestroy {
     return createUserWithEmailAndPassword(this.auth, email, password)
       .then((userCredential) => {
         // Signed in
+        // This is where I can create the document for the user, adding their favouritePosts map and createdPosts map
         const user = userCredential.user;
-        console.log(user);
+        // reference to users collection
+        const usersRef = collection(this.firestore, 'users');
+        // set a document so I can give the new document for the user a specific ID
+        setDoc(doc(usersRef, user.uid), { createdPosts: {}, favouritePosts: {} })
+        
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -57,6 +62,10 @@ export class AuthService implements OnDestroy {
     this.auth.signOut();
     window.location.reload();
     return;
+  }
+
+  ngOnDestroy() {
+    this.authStateSubscription.unsubscribe();
   }
 
 }
