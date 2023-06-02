@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { PostService } from 'src/app/shared/services/post.service';
 
 @Component({
   selector: 'app-create-post',
@@ -13,8 +15,48 @@ export class CreatePostComponent implements OnInit {
   stage4: boolean = false;
 
   categories: string[] = ['Gym', 'Health', 'Family', 'Education', 'Religion', 'Work', 'Music', 'Coding', 'Gaming'];
+  selectedCategories: string[] = [];
 
-  constructor() { }
+  form = this.formBuilder.group({
+    title: new FormControl('', [Validators.required, Validators.min(5)]),
+    text: new FormControl('', [Validators.required, Validators.min(10)]),
+    createdDate: new FormControl(new Date() as Date, Validators.required),
+    categories: new FormControl([] as string[])
+  })
+
+  constructor(private formBuilder: FormBuilder, private post: PostService) { }
+
+  onSubmit() {
+    const post = {
+      title: this.form.controls.title.value!,
+      categories: this.form.controls.categories.value,
+      createdDate: this.form.controls.createdDate.value!,
+      text: this.form.controls.text.value!,
+    }
+    this.post.createPost(post)
+  }
+
+  async modifyCategories(category: string) {
+    if (this.selectedCategories.includes(category)) {
+      // remove category from selectedCategories
+      const index = this.selectedCategories.indexOf(category)
+      if (index > -1) {
+        this.selectedCategories.splice(index, 1);
+      }
+      this.selectedCategories = [...this.selectedCategories];
+      this.form.patchValue({
+        categories: this.selectedCategories
+      })
+    } else {
+      // add category to selected categories
+      this.selectedCategories.push(category);
+      this.selectedCategories = [...new Set(this.selectedCategories)];
+      this.form.patchValue({
+        categories: this.selectedCategories
+      })
+      
+    }
+  }
 
   // I have done it this way as I believe it looks cleaner than any other method of altering the stage
   toggleStage() {

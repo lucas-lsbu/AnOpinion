@@ -9,6 +9,7 @@ import { SettingsComponent } from './page/settings/settings.component';
 import { FavouritesComponent } from './page/favourites/favourites.component';
 import { ViewPostComponent } from './page/view-post/view-post.component';
 import { CreatePostComponent } from './page/create-post/create-post.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -23,7 +24,9 @@ import { CreatePostComponent } from './page/create-post/create-post.component';
   imports: [
     CommonModule,
     DashboardRoutingModule,
-    SharedModule
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class DashboardModule { }

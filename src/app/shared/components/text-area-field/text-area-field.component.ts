@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-text-area-field',
@@ -13,7 +14,7 @@ export class TextAreaFieldComponent implements OnInit {
     @Input() required: boolean = false;
     @Input() name: string = '';
     @Input() placeholder: string = '';
-  
+    @Input() control!: FormControl;
 
   constructor() { }
 

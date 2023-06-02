@@ -15,45 +15,51 @@
       <span>4 {{ stage4 ? '- Images / Videos' : null }}</span>
     </div>
   </div>
-  <div *ngIf="stage1" class="mt-20 w-full">
-    <app-input-field
-      type="text"
-      name="title"
-      placeholder="Title"
-      class="w-4/5"
-    ></app-input-field>
-  </div>
-  <!-- Stage 2 -->
-  <div *ngIf="stage2" class="mt-20 w-full flex flex-col">
-    <span class="bg-gray-50 shadow-lg py-1 px-4 text-2xl place-self-center mb-4">Categories</span>
-    <app-input-field
-      type="text"
-      placeholder="Search"
-    ></app-input-field>
-    <div>
-      <ul class="flex gap-2 flex-wrap justify-between mt-4">
-        <li
-          *ngFor="let category of categories"
-          class="bg-gray-50 shadow-lg p-2"
-          >{{ category }}</li>
-      </ul>
+  <form (ngSubmit)="onSubmit()" class="w-full flex flex-col items-center">
+    <!-- Stage 1 -->
+    <div *ngIf="stage1" class="mt-20 w-full">
+      <app-input-field
+        type="text"
+        name="title"
+        placeholder="Title"
+        [control]="form.controls.title"
+      ></app-input-field>
     </div>
-  </div>
-  <!-- STAGE 3 -->
-  <div *ngIf="stage3" class="flex w-full">
-    <app-text-area-field
-      class="w-full mt-4"
-      name="text"
-      placeholder="Enter your text here"
-    ></app-text-area-field>
-  </div>
-  <!-- STAGE 4 -->
-  <div *ngIf="stage4" class="flex w-full"> 
-    <input class="mt-10" type="file">
-  </div>
-  <button class="bg-green-500 py-1 px-8 rounded-3xl mt-10" type="button"
-    (click)="toggleStage()"
-    *ngIf="!stage4"
-  >Next</button>
-  <button class="bg-green-500 py-1 px-8 rounded-3xl mt-10" type="button" *ngIf="stage4">Finish</button>
+    <!-- Stage 2 -->
+    <div *ngIf="stage2" class="mt-20 w-full flex flex-col">
+      <span class="bg-gray-50 shadow-lg py-1 px-4 text-2xl place-self-center mb-4">Categories</span>
+      <span>Search bar</span>
+      <div>
+        <ul class="flex gap-2 flex-wrap justify-between mt-4">
+          <li
+            *ngFor="let category of categories"
+            class="bg-gray-50 shadow-lg p-2"
+            (click)="modifyCategories(category)"
+            >{{ category }}</li>
+        </ul>
+        selected categories: {{ selectedCategories }}
+      </div>
+    </div>
+    <!-- STAGE 3 -->
+    <div *ngIf="stage3" class="flex w-full">
+      <app-text-area-field
+        class="w-full mt-4"
+        name="text"
+        placeholder="Enter your text here"
+        [control]="form.controls.text"
+      ></app-text-area-field>
+    </div>
+    <!-- STAGE 4 -->
+    <div *ngIf="stage4" class="flex w-full"> 
+      <input class="mt-10" type="file">
+    </div>
+
+    <div class="bg-green-500 py-1 px-8 rounded-3xl mt-10"
+      (click)="toggleStage()"
+      *ngIf="!stage4"
+    >Next</div>
+    <ng-container *ngIf="stage4">
+      <button class="bg-green-500 py-1 px-8 rounded-3xl mt-10">Finish</button>
+    </ng-container>
+  </form>
 </div>
