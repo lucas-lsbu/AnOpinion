@@ -10,6 +10,7 @@ export class PostCardComponent implements OnInit {
   @Input() title: string = '';
   @Input() notifications?: string;
   @Input() totalComments?: string;
+  @Input() id!: string;
 
   constructor() { }
 

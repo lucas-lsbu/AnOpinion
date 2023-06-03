@@ -6,6 +6,7 @@ import { ViewPostComponent } from './page/view-post/view-post.component';
 import { SettingsComponent } from './page/settings/settings.component';
 import { FavouritesComponent } from './page/favourites/favourites.component';
 import { CreatePostComponent } from './page/create-post/create-post.component';
+import { ExploreComponent } from './page/explore/explore.component';
 
 const routes: Routes = [
   {
@@ -22,7 +23,7 @@ const routes: Routes = [
     component: MyPostsComponent
   },
   {
-    path: 'post/id',
+    path: 'post/:id',
     component: ViewPostComponent
   },
   {
@@ -36,6 +37,10 @@ const routes: Routes = [
   {
     path: 'create-post',
     component: CreatePostComponent
+  },
+  {
+    path: 'explore',
+    component: ExploreComponent
   }
 ];
 

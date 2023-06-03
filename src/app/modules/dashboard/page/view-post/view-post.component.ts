@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Observable, map } from 'rxjs';
+import { Post } from 'src/app/shared/services/Post';
+import { PostService } from 'src/app/shared/services/post.service';
 
 @Component({
   selector: 'app-view-post',
@@ -6,10 +10,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./view-post.component.css']
 })
 export class ViewPostComponent implements OnInit {
+  fetchedPost!: any;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, private post: PostService) {
+  }
 
   ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id');
+    this.post.fetchPost(id!).then((doc) => {
+      // console.log(doc!['post']);
+      // console.log(doc);
+      this.fetchedPost = doc!['post'];
+      console.log(this.fetchedPost);
+    })
   }
 
 }

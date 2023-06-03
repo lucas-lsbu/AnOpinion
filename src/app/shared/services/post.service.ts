@@ -1,8 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, doc, setDoc } from '@angular/fire/firestore';
+import { DocumentReference, Firestore, addDoc, collection, collectionData, doc, getDoc, getDocs, limit, query, setDoc, where } from '@angular/fire/firestore';
 import { Post } from './Post';
 import { Auth, User, authState } from '@angular/fire/auth';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -20,19 +21,37 @@ export class PostService {
 
   postsRef = collection(this.firestore, 'posts');
 
-  constructor() {
+  constructor(private router: Router) {
     this.authStateSubscription = this.authState$.subscribe((aUser: User | null) => {
       this.currentUserUid = aUser?.uid;
     })
   }
 
-  createPost(post: Post) {
+  async createPost(post: Post) {
     post.uid = this.currentUserUid;
-    console.log('submitted: ' + post);
-    setDoc(doc(this.postsRef), { post })
-      .then(
-        
-      )
+
+    addDoc(this.postsRef, { post })
+      .then((doc: DocumentReference) => {
+        this.router.navigate(['/dashboard/post/' + doc.id]);
+      })
+
+
+    // OLD DOES -> NOT WORK EFFICIENTLY.
+    // setDoc(doc(this.postsRef), { post })
+  }
+
+  async fetchPost(id: string) {
+    const docRef = doc(this.firestore, 'posts/' + id);
+    
+    return getDoc(docRef).then((doc) => {
+      return doc.data();
+    })
+  }
+
+  async fetchPosts() {
+    const q = query(this.postsRef, limit(3));
+
+    return collectionData(q, {idField: 'id'})
   }
 
 }

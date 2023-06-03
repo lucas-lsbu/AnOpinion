@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DocumentReference } from '@angular/fire/firestore';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { PostService } from 'src/app/shared/services/post.service';
 

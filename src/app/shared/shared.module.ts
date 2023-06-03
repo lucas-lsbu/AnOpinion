@@ -4,6 +4,7 @@ import { InputFieldComponent } from './components/input-field/input-field.compon
 import { PostCardComponent } from './components/post-card/post-card.component';
 import { TextAreaFieldComponent } from './components/text-area-field/text-area-field.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -15,7 +16,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   exports: [
     InputFieldComponent,

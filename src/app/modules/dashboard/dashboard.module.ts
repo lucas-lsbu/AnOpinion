@@ -10,6 +10,7 @@ import { FavouritesComponent } from './page/favourites/favourites.component';
 import { ViewPostComponent } from './page/view-post/view-post.component';
 import { CreatePostComponent } from './page/create-post/create-post.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ExploreComponent } from './page/explore/explore.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SettingsComponent,
     FavouritesComponent,
     ViewPostComponent,
-    CreatePostComponent
+    CreatePostComponent,
+    ExploreComponent
   ],
   imports: [
     CommonModule,
