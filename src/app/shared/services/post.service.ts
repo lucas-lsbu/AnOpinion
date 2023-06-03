@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { DocumentReference, Firestore, Query, addDoc, collection, collectionData, doc, endAt, getDoc, getDocs, limit, orderBy, query, setDoc, startAfter, startAt, where } from '@angular/fire/firestore';
+import { DocumentReference, Firestore, Query, addDoc, arrayUnion, collection, collectionData, doc, endAt, getDoc, getDocs, limit, orderBy, query, setDoc, startAfter, startAt, updateDoc, where } from '@angular/fire/firestore';
 import { Post } from './Post';
 import { Auth, User, authState } from '@angular/fire/auth';
 import { Subscription } from 'rxjs';
@@ -30,9 +30,18 @@ export class PostService {
   async createPost(post: Post) {
     post.uid = this.currentUserUid;
 
-    addDoc(this.postsRef, { ...post })
-      .then((doc: DocumentReference) => {
-        this.router.navigate(['/dashboard/post/' + doc.id]);
+    await addDoc(this.postsRef, { ...post })
+      .then((document: DocumentReference) => {
+
+        // add ID of post to post creating user document
+        // make a reference to the user document, we already have user id with this.currentUserUid;
+        // this uses an update to update the field in the user called createdPosts and adds the id of the post they created
+
+        const usersRef = doc(this.firestore, 'users', this.currentUserUid);
+        updateDoc(usersRef, { createdPosts: arrayUnion(document.id) })
+
+        // route the user to their newly created post
+        this.router.navigate(['/dashboard/post/' + document.id]);
       })
 
 
