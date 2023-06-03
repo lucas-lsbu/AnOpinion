@@ -4,24 +4,11 @@
         <h1 class="text-center text-2xl my-2">Your posts</h1>
         <div class="grid grid-cols-2 gap-2">
             <app-post-card
-                category="GYM"
-                title="How would I improve my current diet?"
+                *ngFor="let post of createdPosts"
+                [category]="post.categories"
+                [title]="post.title"
                 notifications="5"
-            ></app-post-card>
-            <app-post-card
-                category="GYM"
-                title="How would I improve my current diet?"
-                notifications="5"
-            ></app-post-card>
-            <app-post-card
-                category="GYM"
-                title="How would I improve my current diet?"
-                notifications="5"
-            ></app-post-card>
-            <app-post-card
-                category="GYM"
-                title="How would I improve my current diet?"
-                notifications="5"
+                [id]="post.id"
             ></app-post-card>
         </div>
     </div>

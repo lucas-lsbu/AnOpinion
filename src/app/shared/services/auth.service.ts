@@ -22,6 +22,11 @@ export class AuthService implements OnDestroy {
     })
   }
 
+  // get current user id
+  async getUser() {
+    return this.authState$
+  }
+
   // Sign up
   async signUp(email: string, password: string) {
     return createUserWithEmailAndPassword(this.auth, email, password)
