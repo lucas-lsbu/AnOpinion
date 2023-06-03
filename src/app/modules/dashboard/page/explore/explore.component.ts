@@ -8,11 +8,23 @@ import { PostService } from 'src/app/shared/services/post.service';
 })
 export class ExploreComponent implements OnInit {
   
-
+  customSearch: boolean = false;
   postList: Array<any> = [];
+  searchList: Array<any> = [];
   lastDoc: any;
 
   constructor(private post: PostService) { }
+
+  async searchPost(searchText: string) {
+    const response = await this.post.searchPost(searchText)
+
+    response.forEach((doc) => {
+      this.searchList.pop();
+      this.searchList.push({...doc.data(), id: doc.id});
+    })
+
+    this.customSearch = true;
+  }
 
   async showMore() {
     console.log(this.lastDoc);

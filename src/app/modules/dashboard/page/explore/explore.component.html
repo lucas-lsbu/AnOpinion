@@ -1,13 +1,31 @@
 <div class="flex flex-col items-center">
   <h1 class="text-2xl mt-6 mb-4">Explore</h1>
-  <div class="grid grid-cols-1 gap-2 w-screen px-2">
-        <app-post-card
-            *ngFor="let post of postList"
-            [category]="post.categories.join(', ')"
-            [title]="post.title"
-            totalComments="5"
-            [id]="post.id"
-        ></app-post-card>
+  <div class="flex my-2">
+    <input type="text" #searchInput class="p-2 border-2 border-r-0 border-gray-800" />
+    <button class="p-2 border-2 border-gray-800" (click)="searchPost(searchInput.value)" formtarget="_blank">Search</button>
+  </div>
+  <ng-container *ngIf="customSearch">
+    <span class="underline" (click)="customSearch = false">Click here to cancel search</span>
+    <div class="grid grid-cols-1 gap-2 w-screen px-2">
+      <app-post-card
+          *ngFor="let post of searchList"
+          [category]="post.categories.join(', ')"
+          [title]="post.title"
+          totalComments="5"
+          [id]="post.id"
+      ></app-post-card>
     </div>
-  <button class="bg-gray-200 py-2 px-4 rounded-xl mt-4" type="button" (click)="showMore()">More Posts</button>
+  </ng-container>
+  <ng-container *ngIf="!customSearch">
+    <div class="grid grid-cols-1 gap-2 w-screen px-2">
+          <app-post-card
+              *ngFor="let post of postList"
+              [category]="post.categories.join(', ')"
+              [title]="post.title"
+              totalComments="5"
+              [id]="post.id"
+          ></app-post-card>
+      </div>
+    <button class="bg-gray-200 py-2 px-4 rounded-xl mt-4" type="button" (click)="showMore()">More Posts</button>
+  </ng-container>
 </div>

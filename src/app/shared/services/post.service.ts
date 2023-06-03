@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { DocumentReference, Firestore, addDoc, collection, collectionData, doc, getDoc, getDocs, limit, orderBy, query, setDoc, startAfter, startAt, where } from '@angular/fire/firestore';
+import { DocumentReference, Firestore, Query, addDoc, collection, collectionData, doc, endAt, getDoc, getDocs, limit, orderBy, query, setDoc, startAfter, startAt, where } from '@angular/fire/firestore';
 import { Post } from './Post';
 import { Auth, User, authState } from '@angular/fire/auth';
 import { Subscription } from 'rxjs';
@@ -41,9 +41,14 @@ export class PostService {
   }
 
   async fetchPost(id: string) {
-    const docRef = doc(this.firestore, 'posts', id);
-    
+    const docRef = doc(this.firestore, 'posts', id);    
     return await getDoc(docRef);
+  }
+
+  async searchPost(searchText: string) {
+    const q = query(collection(this.firestore, "posts"));
+    let first = query(q, where("title", "==", searchText));
+    return await getDocs(first);
   }
 
   async fetchPosts(lastPost?: any) {
