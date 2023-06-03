@@ -10,17 +10,24 @@ export class ExploreComponent implements OnInit {
   
 
   postList: Array<any> = [];
+  lastDoc: any;
 
   constructor(private post: PostService) { }
 
+  async showMore() {
+    console.log(this.lastDoc);
+    const response = await this.post.fetchPosts(this.lastDoc)
+    this.lastDoc = response.docs[response.docs.length - 1];
+    response.forEach((doc) => {
+      this.postList.push({...doc.data(), id: doc.id});
+    })
+  }
+
   async ngOnInit() {
-    (await this.post.fetchPosts()).subscribe(doc => {
-      doc.map(e => {
-        this.postList.push(e);
-      })
-      console.log(this.postList);
-      // console.log(this.postList[0].post);
-      // console.log(this.postList[0].post.categories);
+    const response = await this.post.fetchPosts()
+    this.lastDoc = response.docs[response.docs.length - 1];
+    response.forEach((doc) => {
+      this.postList.push({...doc.data(), id: doc.id});
     })
   }
 

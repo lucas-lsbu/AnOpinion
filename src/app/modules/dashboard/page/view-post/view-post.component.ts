@@ -17,12 +17,10 @@ export class ViewPostComponent implements OnInit {
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
-    this.post.fetchPost(id!).then((doc) => {
-      // console.log(doc!['post']);
-      // console.log(doc);
-      this.fetchedPost = doc!['post'];
-      console.log(this.fetchedPost);
-    })
+    this.post.fetchPost(id!)
+      .then((e) => {
+        this.fetchedPost = e.data();
+      })
   }
 
 }

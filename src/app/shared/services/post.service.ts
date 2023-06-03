@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { DocumentReference, Firestore, addDoc, collection, collectionData, doc, getDoc, getDocs, limit, query, setDoc, where } from '@angular/fire/firestore';
+import { DocumentReference, Firestore, addDoc, collection, collectionData, doc, getDoc, getDocs, limit, orderBy, query, setDoc, startAfter, startAt, where } from '@angular/fire/firestore';
 import { Post } from './Post';
 import { Auth, User, authState } from '@angular/fire/auth';
 import { Subscription } from 'rxjs';
@@ -30,7 +30,7 @@ export class PostService {
   async createPost(post: Post) {
     post.uid = this.currentUserUid;
 
-    addDoc(this.postsRef, { post })
+    addDoc(this.postsRef, { ...post })
       .then((doc: DocumentReference) => {
         this.router.navigate(['/dashboard/post/' + doc.id]);
       })
@@ -41,17 +41,20 @@ export class PostService {
   }
 
   async fetchPost(id: string) {
-    const docRef = doc(this.firestore, 'posts/' + id);
+    const docRef = doc(this.firestore, 'posts', id);
     
-    return getDoc(docRef).then((doc) => {
-      return doc.data();
-    })
+    return await getDoc(docRef);
   }
 
-  async fetchPosts() {
-    const q = query(this.postsRef, limit(3));
-
-    return collectionData(q, {idField: 'id'})
+  async fetchPosts(lastPost?: any) {
+    const q = query(collection(this.firestore, "posts"));
+    if (lastPost) {
+      let first = query(q, orderBy("createdDate", "desc"), limit(1), startAfter(lastPost));
+      return await getDocs(first);
+    } else {
+      let first = query(q, orderBy("createdDate", "desc"), limit(1));
+      return await getDocs(first);
+    }
   }
 
 }
