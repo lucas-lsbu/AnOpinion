@@ -12,16 +12,12 @@
       <span class="text-xsm">Created: {{ fetchedPost.createdDate.toDate() | date }}</span>
     </div>
     <!-- Comments section -->
-    <div class="my-4">
-      <span class="text-xl my-2 block underline">Comments</span>
-      <div>
-        <span>Anon123126321</span>
-        <p class="text-sm text-gray-800 pl-2">Hey I’ve been through the same problem before! and believe me you’re not alone! I think what you can do is perhaps...</p>
-      </div>
-      <div>
-        <span>Anon12432141</span>
-        <p class="text-sm text-gray-800 pl-2">Hey I’ve been through the same problem before! and believe me you’re not alone! I think what you can do is perhaps...</p>
-      </div>
+    <div class="flex flex-col justify-center">
+      <textarea class="p-2 border-gray-900 border-2 rounded-2xl resize-y w-full" #commentInput type="text"></textarea>
+      <button class="mt-2 py-2 px-4 border border-black rounded-2xl w-max mx-auto" (click)="addComment(commentInput.value)" formtarget="_blank">Comment</button>
     </div>
+    <app-comments
+      [postId]="postId"
+    ></app-comments>
   </ng-container>
 </div>

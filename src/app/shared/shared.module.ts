@@ -5,6 +5,7 @@ import { PostCardComponent } from './components/post-card/post-card.component';
 import { TextAreaFieldComponent } from './components/text-area-field/text-area-field.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { CommentsComponent } from './components/comments/comments.component';
 
 
 
@@ -12,7 +13,8 @@ import { RouterModule } from '@angular/router';
   declarations: [
     InputFieldComponent,
     PostCardComponent,
-    TextAreaFieldComponent
+    TextAreaFieldComponent,
+    CommentsComponent,
   ],
   imports: [
     CommonModule,
@@ -22,7 +24,8 @@ import { RouterModule } from '@angular/router';
   exports: [
     InputFieldComponent,
     PostCardComponent,
-    TextAreaFieldComponent
+    TextAreaFieldComponent,
+    CommentsComponent
   ]
 })
 export class SharedModule { }

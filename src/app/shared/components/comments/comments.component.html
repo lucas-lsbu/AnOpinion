@@ -1,0 +1,11 @@
+<div class="my-4">
+
+  <span class="text-xl my-2 block underline">Comments</span>
+  <ul>
+    <li class="flex flex-col" *ngFor="let comment of commentsList">
+      <span>{{ comment.name }}</span>
+      <p class="text-sm text-gray-800 pl-2">{{ comment.comment }}</p>
+      <span class="text-xsm">{{ comment.createdDate.toDate() | date }}</span>
+    </li>
+  </ul>
+</div>
