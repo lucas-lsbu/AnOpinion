@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { DocumentData, DocumentReference, Firestore, Query, addDoc, arrayUnion, collection, collectionData, doc, endAt, getDoc, getDocs, limit, orderBy, query, setDoc, startAfter, startAt, updateDoc, where } from '@angular/fire/firestore';
+import { DocumentData, DocumentReference, Firestore, Query, addDoc, arrayUnion, collection, collectionData, deleteDoc, doc, endAt, getDoc, getDocs, limit, orderBy, query, setDoc, startAfter, startAt, updateDoc, where } from '@angular/fire/firestore';
 import { Post } from './Post';
 import { Auth, User, authState } from '@angular/fire/auth';
 import { Subscription } from 'rxjs';
@@ -82,6 +82,11 @@ export class PostService {
       let first = query(q, orderBy("createdDate", "desc"), limit(1));
       return await getDocs(first);
     }
+  }
+
+  async deletePost(postId: string) {
+    await deleteDoc(doc(this.firestore, 'posts', postId));
+    return this.router.navigate(['/dashboard/'])
   }
 
 }

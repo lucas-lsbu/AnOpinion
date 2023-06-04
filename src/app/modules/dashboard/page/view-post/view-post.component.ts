@@ -14,26 +14,34 @@ import { PostService } from 'src/app/shared/services/post.service';
 export class ViewPostComponent implements OnInit {
   fetchedPost!: any;
   postId: string;
+  currentUid!: string;
+  deletePostSelected: boolean = false;
 
   constructor(private route: ActivatedRoute, private post: PostService,
     private commentService: CommentsService, private authService: AuthService) {
     this.postId = this.route.snapshot.paramMap.get('id')!
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.post.fetchPost(this.postId)
       .then((e) => {
         this.fetchedPost = e.data();
       })
+
+    const response = await this.authService.getUser();
+
+    response.subscribe((user) => {
+      this.currentUid = user!.uid;
+    })
+
+  }
+
+  async deletePost() {
+    this.post.deletePost(this.postId);
   }
   
   async addComment(input: string) {
-
-    const response = await this.authService.getUser()
-    response.subscribe((user) => {
-      this.commentService.addComment(input, this.postId, user!.uid);
-    })
-
+    this.commentService.addComment(input, this.postId, this.currentUid);
   }
 
 }

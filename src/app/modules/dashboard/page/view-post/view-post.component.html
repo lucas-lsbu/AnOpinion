@@ -11,6 +11,17 @@
       <p>{{ fetchedPost.text }}</p>
       <span class="text-xsm">Created: {{ fetchedPost.createdDate.toDate() | date }}</span>
     </div>
+    <div class="text-center py-4" *ngIf="currentUid == fetchedPost.uid">
+      <button class="underline" type="button" (click)="deletePostSelected = true">delete post</button>
+
+      <ng-container *ngIf="deletePostSelected">
+        <div><span>Are you sure? </span></div>
+        <div class="flex justify-around underline">
+          <button (click)="deletePost()">Yes</button>
+          <button (click)="deletePostSelected = false">No</button>
+        </div>
+      </ng-container>
+    </div>
     <!-- Comments section -->
     <div class="flex flex-col justify-center">
       <textarea class="p-2 border-gray-900 border-2 rounded-2xl resize-y w-full" #commentInput type="text"></textarea>
