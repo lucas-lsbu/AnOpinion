@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { DocumentReference, Firestore, Query, addDoc, arrayUnion, collection, collectionData, doc, endAt, getDoc, getDocs, limit, orderBy, query, setDoc, startAfter, startAt, updateDoc, where } from '@angular/fire/firestore';
+import { DocumentData, DocumentReference, Firestore, Query, addDoc, arrayUnion, collection, collectionData, doc, endAt, getDoc, getDocs, limit, orderBy, query, setDoc, startAfter, startAt, updateDoc, where } from '@angular/fire/firestore';
 import { Post } from './Post';
 import { Auth, User, authState } from '@angular/fire/auth';
 import { Subscription } from 'rxjs';
@@ -60,12 +60,17 @@ export class PostService {
     return await getDocs(first);
   }
 
-  async fetchPostsByUser(id: string) {
+  async fetchPostsByUser(id: string, lastPost?: DocumentData) {
     console.log("fetching posts for: ", id);
-    const c = query(collection(this.firestore, "posts"))
-    const q = query(c, where("uid", "==", id), limit(4))
-    
-    return await getDocs(q);
+    if (lastPost) {
+      let q = query(this.postsRef, orderBy("createdDate", "desc"), limit(2), startAfter(lastPost));
+      return await getDocs(q);
+    } else {
+      const c = query(collection(this.firestore, "posts"))
+      const q = query(c, where("uid", "==", id), limit(2))
+      
+      return await getDocs(q);
+    }
   }
 
   async fetchPosts(lastPost?: any) {

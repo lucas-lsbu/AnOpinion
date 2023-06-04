@@ -8,7 +8,7 @@ export class PostCardComponent implements OnInit {
 
   @Input() category: string = '';
   @Input() title: string = '';
-  @Input() notifications?: string;
+  @Input() createdDate?: Date;
   @Input() totalComments?: string;
   @Input() id!: string;
 

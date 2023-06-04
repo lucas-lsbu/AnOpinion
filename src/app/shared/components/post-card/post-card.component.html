@@ -3,8 +3,10 @@
     <span class="text-gray-500 text-xsm">{{ category }}</span>
     <span class="text-center py-1 text-sm">{{ title }}</span>
     <div class="flex">
-      <span *ngIf="notifications" class="bg-red-500 py-1 px-3 w-max rounded-sm text-xsm">{{ notifications }}</span>
-      <span *ngIf="totalComments" class="ml-auto py-1 text-xsm flex items-center gap-1"><img src="../../../../assets/icons/chatemoji.png" style="height: 20px;">{{ totalComments }}</span>
+      <span *ngIf="createdDate" class="py-1 px-3 w-max rounded-sm text-xsm">Created: {{ createdDate }}</span>
+      <span *ngIf="totalComments" class="ml-auto py-1 text-xsm flex items-center gap-1">
+        <img src="../../../../assets/icons/chatemoji.png" style="height: 20px;">{{ totalComments }}
+      </span>
     </div>
   </div>
 </a>
