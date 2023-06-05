@@ -14,14 +14,25 @@ export class MyPostsComponent implements OnInit {
   lastDoc?: DocumentData;
   currentUserId!: string;
 
+  continueFetching?: boolean = true;
+
   constructor(private postService: PostService, private authService: AuthService) {}
 
   async showMore() {
-    const response = await this.postService.fetchPostsByUser(this.currentUserId, this.lastDoc)
-    this.lastDoc = response.docs[response.docs.length - 1];
-    response.forEach((doc) => {
-      this.postList.push({...doc.data(), id: doc.id});
-    })
+    if (this.continueFetching) {
+      const response = await this.postService.fetchPostsByUser(this.currentUserId, this.lastDoc)
+      this.lastDoc = response.docs[response.docs.length - 1];
+      if (response.empty) {
+        this.continueFetching = false;
+      }
+      response.forEach((doc) => {
+        console.log("this just fetched a new document!");
+        console.log(doc.data())
+        this.postList.push({...doc.data(), id: doc.id});
+      })
+    } else {
+      console.log("ran out of documents my g");
+    }
   }
 
   async ngOnInit() {

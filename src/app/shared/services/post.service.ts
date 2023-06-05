@@ -101,12 +101,11 @@ export class PostService {
   async fetchPostsByUser(id: string, lastPost?: DocumentData) {
     console.log("fetching posts for: ", id);
     if (lastPost) {
-      let q = query(this.postsRef, orderBy("createdDate", "desc"), limit(2), startAfter(lastPost));
+      let q = query(this.postsRef, where("uid", "==", id), limit(1), startAfter(lastPost));
       return await getDocs(q);
     } else {
       const c = query(collection(this.firestore, "posts"))
-      const q = query(c, where("uid", "==", id), limit(2))
-      
+      const q = query(c, where("uid", "==", id), limit(4))
       return await getDocs(q);
     }
   }

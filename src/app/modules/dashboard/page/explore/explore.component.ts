@@ -13,6 +13,8 @@ export class ExploreComponent implements OnInit {
   searchList: Array<any> = [];
   lastDoc: any;
 
+  continueFetching?: boolean = true;
+
   constructor(private post: PostService) { }
 
   async searchPost(searchText: string) {
@@ -27,12 +29,19 @@ export class ExploreComponent implements OnInit {
   }
 
   async showMore() {
-    console.log(this.lastDoc);
-    const response = await this.post.fetchPosts(this.lastDoc)
-    this.lastDoc = response.docs[response.docs.length - 1];
-    response.forEach((doc) => {
-      this.postList.push({...doc.data(), id: doc.id});
-    })
+    if (this.continueFetching) {
+      console.log(this.lastDoc);
+      const response = await this.post.fetchPosts(this.lastDoc)
+      if (response.empty) {
+        this.continueFetching = false;
+      }
+      this.lastDoc = response.docs[response.docs.length - 1];
+      response.forEach((doc) => {
+        this.postList.push({...doc.data(), id: doc.id});
+      })
+    } else {
+      console.log("no more documents");
+    }
   }
 
   async ngOnInit() {
