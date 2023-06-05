@@ -1,12 +1,15 @@
 <div class="flex flex-col items-center">
   <h1 class="text-2xl mt-6 mb-4">Favourites</h1>
   <div class="grid grid-cols-1 gap-2 w-screen px-2">
-      <app-post-card
-          category="RELATIONSHIP"
-          title="My boyfriend and I are having issues"
-          notifications="2"
-          totalComments="5"
-      ></app-post-card>
+    <ng-container *ngIf="fetchedFavouritePosts">
+        <app-post-card
+          *ngFor="let post of fetchedFavouritePosts"
+            [category]="post.categories.join(', ')"
+            [title]="post.title"
+            totalComments="5"
+            [id]="post.id"
+        ></app-post-card>
+      </ng-container>
   </div>
-  <button class="bg-gray-200 py-2 px-4 rounded-xl mt-4" type="button">More Posts</button>
-</div>
+  <button class="bg-gray-200 py-2 px-4 rounded-xl mt-4" type="button" (click)="fetchMoreFavouritePosts()">More Posts</button>
+</div> 

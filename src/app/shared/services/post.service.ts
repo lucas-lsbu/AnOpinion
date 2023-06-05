@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { DocumentData, DocumentReference, Firestore, Query, addDoc, arrayUnion, collection, collectionData, deleteDoc, doc, endAt, getDoc, getDocs, limit, orderBy, query, setDoc, startAfter, startAt, updateDoc, where } from '@angular/fire/firestore';
+import { DocumentData, DocumentReference, Firestore, Query, addDoc, arrayRemove, arrayUnion, collection, collectionData, deleteDoc, doc, endAt, getDoc, getDocs, limit, orderBy, query, setDoc, startAfter, startAt, updateDoc, where } from '@angular/fire/firestore';
 import { Post } from './Post';
 import { Auth, User, authState } from '@angular/fire/auth';
 import { Subscription } from 'rxjs';
@@ -89,4 +89,32 @@ export class PostService {
     return this.router.navigate(['/dashboard/'])
   }
 
+  async addToFavourites(postId: string) {
+
+    // get information about current user to see if they have the post already in their favourites
+    const usersRef = doc(this.firestore, 'users', this.currentUserUid);
+
+    const response = await getDoc(usersRef)
+
+    const currentUserData = response.data()
+
+    // adding the favourite posts to a variable so we can use includes in it
+    const currentUserFavouritePosts = currentUserData!['favouritePosts'];
+
+    // check whether or not the array of favouritePosts contains the postId for the current post
+    // if its in there then remove and vice versa if not then add.
+    if(!currentUserFavouritePosts.includes(postId)) {
+      console.log("ran the add")
+      return updateDoc(usersRef, { favouritePosts: arrayUnion(postId) });
+    } else {
+      console.log("ran the remove")
+      return updateDoc(usersRef, { favouritePosts: arrayRemove(postId) });
+    }
+
+  }
+
+  async getFavouritePosts(postIds: Array<any>, iteration: number) {
+    const docRef = doc(this.firestore, 'posts', postIds[iteration])
+    return await getDoc(docRef);
+  }
 }

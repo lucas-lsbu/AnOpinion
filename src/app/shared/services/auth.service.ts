@@ -38,8 +38,8 @@ export class AuthService implements OnDestroy {
         const usersRef = collection(this.firestore, 'users');
         // make an object for user and set a document so I can give the new document for the user a specific ID
         const userObj = {
-          createdPosts: {},
-          favouritePosts: {},
+          createdPosts: [],
+          favouritePosts: [],
           name: 'Anon A',
           avatar: 'https://firebasestorage.googleapis.com/v0/b/anopinion-537eb.appspot.com/o/icons%2Fusericon.png?alt=media&token=9c746ef2-3f02-4299-955d-5be075099f7a&_gl=1*dq5883*_ga*MzY3MTQ5MzI2LjE2ODU1ODA3NTE.*_ga_CW55HF8NVT*MTY4NTg5NTYzNi4yMS4xLjE2ODU4OTU3NTkuMC4wLjA.',
         }
