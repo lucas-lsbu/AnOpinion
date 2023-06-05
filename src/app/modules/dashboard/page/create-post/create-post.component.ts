@@ -18,23 +18,32 @@ export class CreatePostComponent implements OnInit {
   categories: string[] = ['Gym', 'Health', 'Family', 'Education', 'Religion', 'Work', 'Music', 'Coding', 'Gaming'];
   selectedCategories: string[] = [];
 
+
+  // selected image for upload
+  selectedFile?: File;
+
   form = this.formBuilder.group({
     title: new FormControl('', [Validators.required, Validators.min(5)]),
     text: new FormControl('', [Validators.required, Validators.min(10)]),
     createdDate: new FormControl(new Date() as Date, Validators.required),
-    categories: new FormControl([] as string[])
+    categories: new FormControl([] as string[]),
   })
 
   constructor(private formBuilder: FormBuilder, private post: PostService) { }
 
   onSubmit() {
-    const post = {
-      title: this.form.controls.title.value!,
-      categories: this.form.controls.categories.value,
-      createdDate: this.form.controls.createdDate.value!,
-      text: this.form.controls.text.value!,
+    if (this.form.valid) {
+
+      const post = {
+        title: this.form.controls.title.value!,
+        categories: this.form.controls.categories.value,
+        createdDate: this.form.controls.createdDate.value!,
+        text: this.form.controls.text.value!,
+      }
+      this.post.createPost(post, this.selectedFile)
+    } else {
+      return
     }
-    this.post.createPost(post)
   }
 
   async modifyCategories(category: string) {
@@ -57,6 +66,10 @@ export class CreatePostComponent implements OnInit {
       })
       
     }
+  }
+
+  onFileChange(event: any) {
+    this.selectedFile = event.target.files[0];
   }
 
   // I have done it this way as I believe it looks cleaner than any other method of altering the stage

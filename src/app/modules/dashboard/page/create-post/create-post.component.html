@@ -50,8 +50,12 @@
       ></app-text-area-field>
     </div>
     <!-- STAGE 4 -->
-    <div *ngIf="stage4" class="flex w-full"> 
-      <input class="mt-10" type="file">
+    <div *ngIf="stage4" class="flex w-full">
+      <input
+        class="mt-10"
+        type="file"
+        (change)="onFileChange($event)"
+      />
     </div>
 
     <div class="bg-green-500 py-1 px-8 rounded-3xl mt-10"

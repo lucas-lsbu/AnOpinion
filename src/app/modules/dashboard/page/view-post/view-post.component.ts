@@ -56,7 +56,10 @@ export class ViewPostComponent implements OnInit {
   }
   
   async addComment(input: string) {
-    this.commentService.addComment(input, this.postId, this.currentUid);
+    this.commentService.addComment(input, this.postId, this.currentUid)
+      .then(() => {
+        window.location.reload();
+      })
   }
 
   async addToFavourites() {

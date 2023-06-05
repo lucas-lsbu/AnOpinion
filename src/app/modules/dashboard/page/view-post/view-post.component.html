@@ -9,6 +9,12 @@
     <div class="mt-4">
       <h1 class="text-2xl text-center border-b border-black mb-4">{{ fetchedPost.title }}</h1>
       <p>{{ fetchedPost.text }}</p>
+      <div *ngIf="fetchedPost.imageUrl">
+        <img
+          [src]="fetchedPost.imageUrl"
+          class="w-40 mx-auto my-4"
+        >
+      </div>
       <div class="flex justify-between mt-2">
         <span class="text-xsm">Created: {{ fetchedPost.createdDate.toDate() | date }}</span>
         <p class="text-xsm underline" (click)="addToFavourites()">{{ hasFavourited ? 'Remove from favourites' : 'Add to favourites' }}</p>

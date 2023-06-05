@@ -4,6 +4,8 @@ import { Post } from './Post';
 import { Auth, User, authState } from '@angular/fire/auth';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { Storage, getDownloadURL, ref, uploadBytes } from '@angular/fire/storage';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
   providedIn: 'root'
@@ -21,17 +23,53 @@ export class PostService {
 
   postsRef = collection(this.firestore, 'posts');
 
+  // storage
+  private storage: Storage = inject(Storage);
+
+
+
   constructor(private router: Router) {
     this.authStateSubscription = this.authState$.subscribe((aUser: User | null) => {
       this.currentUserUid = aUser?.uid;
     })
   }
 
-  async createPost(post: Post) {
+  async createPost(post: Post, file?: any) {
     post.uid = this.currentUserUid;
 
-    await addDoc(this.postsRef, { ...post })
-      .then((document: DocumentReference) => {
+    if(file) {
+
+      const fileNameID = uuidv4()
+
+      const filePath = ref(this.storage, 'posts/images/'+ fileNameID);
+
+      uploadBytes(filePath, file).then((snapshot) => {
+        getDownloadURL(snapshot.ref).then( async (downloadURL) => {
+
+          // add the link to uploaded file to the firestore object to store
+          post.imageUrl = downloadURL;
+
+          // upload to firestore
+          await addDoc(this.postsRef, { ...post })
+            .then((document: DocumentReference) => {
+
+            // add ID of post to post creating user document
+            // make a reference to the user document, we already have user id with this.currentUserUid;
+            // this uses an update to update the field in the user called createdPosts and adds the id of the post they created
+
+            const usersRef = doc(this.firestore, 'users', this.currentUserUid);
+            updateDoc(usersRef, { createdPosts: arrayUnion(document.id) })
+
+            // route the user to their newly created post
+            this.router.navigate(['/dashboard/post/' + document.id]);
+          })
+
+        })
+      })
+    } else {
+      // upload to firestore
+      await addDoc(this.postsRef, { ...post })
+        .then((document: DocumentReference) => {
 
         // add ID of post to post creating user document
         // make a reference to the user document, we already have user id with this.currentUserUid;
@@ -43,7 +81,7 @@ export class PostService {
         // route the user to their newly created post
         this.router.navigate(['/dashboard/post/' + document.id]);
       })
-
+    }
 
     // OLD DOES -> NOT WORK EFFICIENTLY.
     // setDoc(doc(this.postsRef), { post })
